@@ -1,0 +1,6 @@
+pymongo
+black
+isort
+uuid
+typing
+pytest
