@@ -1,24 +1,34 @@
+from lib2to3.pytree import Base
 import uuid
 from typing import List
+from pydantic import BaseModel
 
 
-class Cyclist:
+class Cyclist(BaseModel):
+    _id = None
     stage_results = []
 
-    def __init__(self, name, value) -> None:
+    def __init__(self, name: str, value: int, team: str) -> None:
         self.name = name
         self.value = value
+        self.team = team
 
     def add_stage_result(stage_result):
         stage_result.append(stage_result)
 
 
-class Stage:
+class Stage():
+    _id = None
     def __init__(self, name: str) -> None:
-        self.name=name
+        self.name = name
+
+    def parse_data_to_db(self):
+        return {
+            "name": self.name
+        }
 
 
-class StagePoints:
+class StagePoints(BaseModel):
     def __init__(
         self,
         stage_rank: int,
@@ -28,7 +38,7 @@ class StagePoints:
         points_rank: int,
         mountains_rank: int,
         most_combative: bool,
-        stage: Stage,
+        stage: str,
     ) -> None:
         self.id = uuid.uuid1()
         self.stage_rank = stage_rank
@@ -234,16 +244,21 @@ class StagePoints:
         return self.rankings_points(self) + self.stage_result_points(self)
 
 
-class User:
-    team: List[Cyclist] = []
-    stage_points_list: List[StagePoints] = []
-
+class User(BaseModel):
+    id: str = None
+    team: List[str] = []
+    stage_points_list: List[str] = []
+    data_dict = {
+    }
+    
     def __init__(self, name: str, username: str, password: str) -> None:
-        self.id = uuid.uuid1()
         self.name = name
         self.username = username
         self.password = password
         self.substitutions = 8
+    
+    def __init__(self, data_dict: dict) -> None:
+        pass
 
     def make_substitution(self) -> None:
         self.substitutions -= 1

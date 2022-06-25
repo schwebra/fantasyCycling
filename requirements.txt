@@ -4,3 +4,5 @@ isort
 uuid
 typing
 pytest
+pydantic
+pytest-cov
