@@ -1,36 +1,48 @@
-from lib2to3.pytree import Base
 import uuid
+from lib2to3.pytree import Base
 from typing import List
+
 from pydantic import BaseModel
 
 
-class Cyclist(BaseModel):
+class Cyclist:
     _id = None
-    stage_results = []
+    stage_results: List[str] = []
 
     def __init__(self, name: str, value: int, team: str) -> None:
         self.name = name
         self.value = value
         self.team = team
 
+    def parse_data_to_db(self):
+        return {
+            "name": self.name,
+            "value": self.value,
+            "team": self.team,
+            "stage_results": self.stage_results
+                }
+        
+    
     def add_stage_result(stage_result):
         stage_result.append(stage_result)
 
 
-class Stage():
+class Stage:
     _id = None
+
     def __init__(self, name: str) -> None:
         self.name = name
 
     def parse_data_to_db(self):
-        return {
-            "name": self.name
-        }
+        return {"name": self.name}
 
 
-class StagePoints(BaseModel):
+class StagePoints:
+    _id = None
     def __init__(
         self,
+        name: str,
+        stage_id: str,       
         stage_rank: int,
         sprint_points: int,
         mountain_points: int,
@@ -38,9 +50,9 @@ class StagePoints(BaseModel):
         points_rank: int,
         mountains_rank: int,
         most_combative: bool,
-        stage: str,
+ 
     ) -> None:
-        self.id = uuid.uuid1()
+        self.name = name
         self.stage_rank = stage_rank
         self.sprint_points = sprint_points
         self.mountain_points = mountain_points
@@ -48,7 +60,20 @@ class StagePoints(BaseModel):
         self.mountain_rank = mountains_rank
         self.points_rank = points_rank
         self.most_combative = most_combative
-        self.stage = stage
+        self.stage_id = stage_id
+
+    def parse_data_to_db(self):
+        return {
+            "name": self.name,
+            "stage_rank": self.stage_rank,
+            "sprint_points": self.sprint_points,
+            "mountain_points": self.mountain_points,
+            "gc_rank": self.gc_rank,
+            "points_rank": self.points_rank,
+            "mountains_rank": self.mountain_rank,
+            "most_combative": self.most_combative,
+            "stage_id": self.stage_id,
+        }
 
     def stage_result_points(self) -> int:
         total = 0
@@ -244,21 +269,27 @@ class StagePoints(BaseModel):
         return self.rankings_points(self) + self.stage_result_points(self)
 
 
-class User(BaseModel):
-    id: str = None
+class User:
+    _id: str = None
     team: List[str] = []
     stage_points_list: List[str] = []
-    data_dict = {
-    }
-    
+
     def __init__(self, name: str, username: str, password: str) -> None:
         self.name = name
         self.username = username
         self.password = password
         self.substitutions = 8
     
-    def __init__(self, data_dict: dict) -> None:
-        pass
+    def parse_data_to_db(self):
+        return {
+            "name": self.name,
+            "username": self.username,
+            "password": self.password,
+            "substitutions": self.substitutions,
+            "team": self.team,
+            "stage_points_list": self.stage_points_list
+        }
+        
 
     def make_substitution(self) -> None:
         self.substitutions -= 1

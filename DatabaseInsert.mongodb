@@ -1,0 +1,53 @@
+// MongoDB Playground
+// To disable this template go to Settings | MongoDB | Use Default Template For Playground.
+// Make sure you are connected to enable completions and to be able to run a playground.
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// Select the database to use.
+use('Cyclistdatabase');
+
+// The drop() command destroys all data from a collection.
+// Make sure you run it against the correct database and collection.
+db.stagePointss.drop();
+db.cyclists.drop();
+// Insert a few documents into the sales collection.
+db.cyclists.insertMany([
+  { '_id': 1, 'name': 'Chis Froome', 'value': 20 },
+  { '_id': 2, 'name': 'Primos Roglic', 'value': 20 },
+  { '_id': 3, 'name': 'Tadej Pogacar', 'value': 20 },
+  { '_id': 4, 'name': 'Remco Evanapoel', 'value': 20 },
+  { '_id': 5, 'name': "Ben O'Connor", 'value': 20 },
+  { '_id': 6, 'name': 'Geraint Thomas', 'value': 20 },
+  { '_id': 7, 'name': 'Adam Yates', 'value': 20 },
+  { '_id': 8, 'name': 'Jonas Vingegaard', 'value': 20 },
+  { '_id': 9, 'name': 'Aleksander Vlasov', 'value': 20 },
+]);
+
+db.stages.insertMany([
+  {'_id': 1, 'name': 'Stage 1'},
+  {'_id': 2, 'name': 'Stage 2'},
+  {'_id': 3, 'name': 'Stage 3'},
+  {'_id': 4, 'name': 'Stage 4'},
+  {'_id': 5, 'name': 'Stage 5'},
+  {'_id': 6, 'name': 'Stage 6'},
+  {'_id': 7, 'name': 'Stage 7'},
+])
+
+db.users.insertMany([
+  {'_id': 1, 'name': 'Seb Brice', 'username': 'briceseb', 'password': 'abc123', 'substitutions': 8, 'team': [1,2,3,4,5,6,7,8], 'stage_points_list':[]}
+])
+
+
+// Run a find command to view items sold on April 4th, 2014.
+//db.sales.find({ date: { $gte: new Date('2014-04-04'), $lt: new Date('2014-04-05') } });
+
+// Build an aggregation to view total sales for each product in 2014.
+//const aggregation = [
+//  { $match: { date: { $gte: new Date('2014-01-01'), $lt: new Date('2015-01-01') } } },
+//  { $group: { _id: '$item', totalSaleAmount: { $sum: { $multiply: [ '$price', '$quantity' ] } } } }
+//];
+
+// Run the aggregation and open a cursor to the results.
+// Use toArray() to exhaust the cursor to return the whole result set.
+// You can use hasNext()/next() to iterate through the cursor page by page.
+//db.sales.aggregate(aggregation);

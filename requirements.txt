@@ -6,3 +6,4 @@ typing
 pytest
 pydantic
 pytest-cov
+beanie
